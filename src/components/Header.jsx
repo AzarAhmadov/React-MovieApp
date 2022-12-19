@@ -4,11 +4,14 @@ import { globalContext } from './context/Context';
 
 export default function Header() {
 
-    let { getData, menu, search, setSearch, url, base_url, setUrl, api_key } = useContext(globalContext)
+    let { getData, menu, search, setSearch, url, base_url, setUrl } = useContext(globalContext)
 
-    const getFind = () => {
-        url = `${base_url}/search/movie?api_key=baf73bb11d6b81a6179e684c79e3c09a&query=${search}`
-        setUrl(url)
+    const searchMovie = (evt) => {
+        if (evt.key == "Enter") {
+            url = base_url + "/search/movie?api_key=db95773a7fb212ba790d71f6adac0e7e&query=" + search;
+            setUrl(url);
+            setSearch(" ");
+        }
     }
 
     return (
@@ -31,8 +34,10 @@ export default function Header() {
                     </ul>
 
                     <div className="input">
-                        <input onKeyUp={getFind} onChange={(e) => { setSearch(e.target.value) }}
-                            type="text" placeholder='Enter Movie Name' />
+                        <input type="text" placeholder="Enter Movie Name..."
+                            onChange={(e) => { setSearch(e.target.value) }}
+                            value={search} onKeyPress={searchMovie}>
+                        </input>
                         <AiOutlineSearch className='search-i' />
                     </div>
 
